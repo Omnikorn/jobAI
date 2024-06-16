@@ -2,6 +2,7 @@ const express = require('express');
 const { chromium } = require('playwright');
 const bodyParser = require('body-parser');
 const fetch = require('node-fetch');
+const { time } = require('console');
 const app = express();
 const port = 3333;
 require('dotenv').config();
@@ -19,7 +20,8 @@ app.use(express.json());
 async function scrapeWebsite(url) {
     const browser = await chromium.launch();
     const page = await browser.newPage();
-    await page.goto(url);
+    await page.goto(url, { waitUntil: 'networkidle' });
+    await page.waitForSelector('body',{timeout: 10000});
     const webtext = await page.evaluate(() => document.body.innerText);
     await browser.close();
     return webtext;

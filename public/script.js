@@ -85,8 +85,10 @@ displayJobDetails(jobDetails);
             url: '/scrape',
             data: { url: url },
             success: function(response) {
+                console.log("the response version is " + response);
                 const ad = response.webtext;
-                // $('#site_text').text(response.webtext);
+                console.log("the scraped version is " + ad);
+                 $('#site_text').text(response.webtext);
                 newAdvert(ad);
             },
             error: function() {
